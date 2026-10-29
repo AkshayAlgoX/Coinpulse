@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { fetcher } from '@/lib/coingecko.actions';
+import { getCoinPrice } from '@/lib/coingecko.actions';
 import type { OHLCData } from '@/types';
 
 interface Trade {
@@ -43,13 +43,7 @@ export const useCoinGeckoWebSocket = ({
     // A. Fetch Real Price (Polling)
     const fetchRealData = async () => {
       try {
-        const priceData = await fetcher<any>(`/simple/price`, {
-          ids: coinId,
-          vs_currencies: 'usd',
-          include_24hr_change: 'true',
-          include_last_updated_at: 'true',
-          precision: 'full',
-        });
+        const priceData = await getCoinPrice(coinId);
 
         if (!isMounted) return;
 

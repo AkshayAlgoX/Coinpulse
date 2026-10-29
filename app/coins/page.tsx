@@ -1,4 +1,4 @@
-import { fetcher } from '@/lib/coingecko.actions';
+import { fetcher } from '@/lib/coingecko.server';
 import Link from 'next/link';
 import CoinsList from '@/components/CoinsList';
 import type { CoinMarketData } from '@/types';

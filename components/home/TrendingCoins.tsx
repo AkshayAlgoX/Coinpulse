@@ -1,4 +1,4 @@
-import { fetcher } from '@/lib/coingecko.actions';
+import { fetcher } from '@/lib/coingecko.server';
 import TrendingCoinsList from '@/components/home/TrendingCoinsList';
 import { TrendingCoinsFallback } from '@/components/home/fallback';
 import type { TrendingCoin } from '@/types';

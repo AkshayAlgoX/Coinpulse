@@ -7,7 +7,7 @@
 ## 1. Technical Stack
 *   **Framework:** `Next.js` (App Router) — Utilizing Server Components for SEO and speed, and Client Components for real-time interactivity.
 *   **Data Fetching:**
-    *   **Server-side:** Custom `fetcher` abstraction in `lib/coingecko.actions.ts` using `fetch` with Next.js revalidation.
+    *   **Server-side:** Custom `fetcher` abstraction in `lib/coingecko.server.ts` (server components only) using `fetch` with Next.js revalidation.
     *   **Client-side:** `SWR` for search results and `setInterval` polling for "live" price updates.
 *   **Styling & UI:** `Tailwind CSS` for utility-first styling, `Radix UI` for accessible primitives (Dialogs, Modals), and `Lucide React` for iconography.
 *   **Charts:** `lightweight-charts` by TradingView for high-performance financial data visualization (OHLC).
@@ -17,9 +17,9 @@
 
 ## 2. Core Architecture & Data Flow
 
-### A. Centralized Data Fetching (`lib/coingecko.actions.ts`)
-Instead of calling `fetch` everywhere, the project uses a centralized `fetcher` function.
-*   **Security:** It injects the `x-cg-demo-api-key` from environment variables server-side, keeping it hidden from the client.
+### A. Centralized Data Fetching (`lib/coingecko.server.ts`)
+Instead of calling `fetch` everywhere, server components use a centralized `fetcher` function.
+*   **Security:** It injects the `x-cg-demo-api-key` from environment variables server-side, keeping it hidden from the client. It is deliberately not a Server Action: client components call the narrow actions in `lib/coingecko.actions.ts` (`getCoinOHLC`, `getCoinPrice`, `searchCoins`), which validate their input and request one fixed endpoint each.
 *   **Error Handling:** Implements standardized error catching for API limits (429) or invalid requests.
 *   **Caching:** Uses Next.js `revalidate` tags to cache market data for 60 seconds by default, reducing API calls and improving performance.
 
@@ -71,7 +71,7 @@ A Command-K (`⌘K`) searchable interface:
 *   `/app`: The "Skeleton." Routes, layouts, and page-level data fetching.
 *   `/components`: The "Organs." Reusable UI blocks like `DataTable`, `Header`, and `SearchModal`.
 *   `/hooks`: The "Nervous System." Logic like `useCoinGeckoWebSocket` that manages state and timing.
-*   `/lib`: The "Tools." Utility functions (`cn`, `formatCurrency`) and Server Actions (`coingecko.actions.ts`).
+*   `/lib`: The "Tools." Utility functions (`cn`, `formatCurrency`), the server-only CoinGecko client (`coingecko.server.ts`) and validated Server Actions (`coingecko.actions.ts`).
 *   `/public`: Static assets like the `logo.svg`.
 *   `types.d.ts`: TypeScript definitions ensuring data consistency across the app.
 
