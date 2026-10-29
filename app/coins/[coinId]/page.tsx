@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetcher } from '@/lib/coingecko.actions';
+import { fetcher } from '@/lib/coingecko.server';
 import { notFound } from 'next/navigation';
 import LiveDataWrapper from '@/components/LiveDataWrapper';
 
